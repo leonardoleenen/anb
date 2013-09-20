@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="es" ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <link href="css/estilos.css" rel="stylesheet" media="screen">
+ 
+    <title>Libros APP . AngularJS</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js"></script>
+ 
+    <script src="src/app.js"></script>
+    
+    <script src="src/controllers/LibrosListController.js"></script>
+    <script src="src/controllers/LibroDetailController.js"></script>
+    <script src="src/controllers/NuevoLibroController.js" t></script>
+ 
+</head>
+ 
+<body>
+ 
+    <div ng-view></div>
+ 	
+ 	
+ 	<a href="#/libros">Lista de Libros</a>
+ 	<a href="#/nuevo_libro">Nuevo Libro</a>
+</body>
+</html>
