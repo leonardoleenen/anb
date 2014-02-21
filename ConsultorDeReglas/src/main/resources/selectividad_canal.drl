@@ -1,0 +1,30 @@
+package bo.gob.aduanda.reglas; 
+
+import bo.gob.aduanda.reglas.facts.*;
+
+rule "linea 1"
+
+	when 
+		canal: Canal( subpartida == "ORO" &&  despachante.riesgo !="CONFIABLE");
+	then 
+		canal.setRegla(1);
+		canal.setResultado("Canal Rojo");
+end
+
+rule "linea 2"
+
+	when 
+		canal: Canal( subpartida == "ORO" &&  despachante.riesgo =="CONFIABLE");
+	then 
+		canal.setRegla(2);
+		canal.setResultado("Canal Amarillo");
+end
+
+rule "linea 3"
+
+	when 
+		canal: Canal( subpartida != "ORO" &&  despachante.riesgo =="CONFIABLE");
+	then 
+		canal.setRegla(3);
+		canal.setResultado("Verde");
+end

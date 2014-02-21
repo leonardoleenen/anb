@@ -1,0 +1,100 @@
+package bo.gob.aduanda.reglas; 
+
+
+/*
+Regla que aplica a los limite superiores e inferiores 
+*/
+
+import bo.gob.aduanda.reglas.facts.*;
+
+
+rule "Calcular Porcentaje Riesgo"
+	no-loop 
+	when 
+		c:Canal( )
+	then 
+		double riesgo = ((c.getDespachante().getPendientes()*100)/5 + (c.getDespachante().getContravenciones()*100)/3 + (c.getDespachante().getDelitos()*100)/1 + (c.getDespachante().getAnuladas()*100)/5 + (c.getDespachante().getModificadas()*100)/3)/5;
+		c.getDespachante().setRiesgo_calculado(riesgo);
+		update(c);
+		System.out.println("El reisgo del despachante es: " + riesgo);	
+end 
+
+rule "Muy Riesgos"
+	no-loop
+	when 
+		c:Canal(despachante.riesgo=="INDETERMINADO" && despachante.riesgo_calculado>70)
+	then
+		
+		c.getDespachante().setRiesgo("MUY RIESGOSO");
+		update(c);
+end 
+
+rule " Riesgoso"
+	no-loop
+	when 
+		c:Canal(despachante.riesgo=="INDETERMINADO" && despachante.riesgo_calculado>50 && despachante.riesgo_calculado<50)
+	then
+		
+		c.getDespachante().setRiesgo("RIESGOSO");
+		update(c);
+end
+
+rule "Confiable"
+	no-loop
+	when 
+		c:Canal(despachante.riesgo=="INDETERMINADO" && despachante.riesgo_calculado<50 && despachante.riesgo_calculado !=0.0)
+	then
+		System.out.println(c.getDespachante().getRiesgo_calculado());
+		c.getDespachante().setRiesgo("CONFIABLE");
+		update(c);
+end
+ 
+		
+	
+		
+
+/*
+rule "Muy Riesgoso"
+
+	when 
+		c:Canal( despachante.anuladas > 3 && 
+						despachante.delitos > 1 &&  
+						despachante.pendientes > 5 &&
+						despachante.anuladas > 5 && 
+						despachante.modificadas > 3 && 
+						despachante.riesgo=="INDETERMINADO")
+		
+	then 
+		c.getDespachante().setRiesgo("MUY RIESGOSO");
+		update(c);
+		
+end
+
+rule "Riesgoso"
+	when 
+		c:Canal( despachante.anuladas > 3 && 
+						despachante.delitos > 1 &&  
+						despachante.pendientes == 0 &&
+						despachante.anuladas == 0 && 
+						despachante.modificadas == 0 && 
+						despachante.riesgo=="INDETERMINADO")
+		
+	then 
+		c.getDespachante().setRiesgo("RIESGOSO");
+		update(c);	
+end
+
+rule "Confiable"
+	when 
+		c:Canal( despachante.anuladas == 0 && 
+						despachante.delitos == 0 &&  
+						despachante.pendientes == 0 &&
+						despachante.anuladas == 0 && 
+						despachante.modificadas == 0 && 
+						despachante.riesgo=="INDETERMINADO")
+		
+	then 
+		c.getDespachante().setRiesgo("CONFIABLE");
+		update(c);	
+end
+*/

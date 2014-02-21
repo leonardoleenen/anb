@@ -1,0 +1,11 @@
+package bo.gob.aduanda.reglas;
+
+import bo.gob.aduanda.reglas.test.RuleTest.Message;
+
+
+rule "GoodBye"
+    when
+        Message( status == Message.GOODBYE, myMessage : message )
+    then
+        System.out.println( myMessage );
+end
